@@ -13,6 +13,7 @@ batchsize = 8
 epochs = 50
 train_data_path = 'data/train'
 
+# 常用的图像预处理方法
 transform = transforms.Compose([transforms.ToTensor(),  # 图片转张量
                                 transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])])
 # 构建MyDataset实例
