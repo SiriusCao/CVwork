@@ -42,6 +42,7 @@ for epoch in range(1, epochs+1):
         y_np = lab.cpu().data.numpy().copy()
         y_np = np.argmin(y_np, axis=1)
 
+        # 每20个batch打印一次日志
         if batch_idx % 20 == 0:
             print('Epoch:[{}/{}]\tStep:[{}/{}]\tLoss:{:.6f}'.format(
                 epoch, epochs, (batch_idx+1)*len(img), len(dataloader.dataset), loss.item()
@@ -51,6 +52,7 @@ for epoch in range(1, epochs+1):
         loss.backward()
         optimizer.step()
 
+    # 每十次epoch保存一次训练好的模型
     if epoch % 10 == 0:
         torch.save(net, 'checkpoints/model_epoch_{}.pth'.format(epoch))
         print('checkpoints/model_epoch_{}.pth saved!'.format(epoch))
