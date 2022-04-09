@@ -5,11 +5,12 @@ from torch import nn
 class Net(nn.Module):
     def __init__(self):
         super(Net, self).__init__()
+        # torch.nn.Sequential是一个容器，模块将按照构造函数中传递的顺序添加到模块中
         self.encode1 = nn.Sequential(
-            nn.Conv2d(3, 64, kernel_size=3, stride=1, padding=1),
-            nn.BatchNorm2d(64),
+            nn.Conv2d(3, 64, kernel_size=3, stride=1, padding=1),  # 输入的通道数目、输出的通道数目、卷积核的大小、卷积每次滑动的步长为多少、padding
+            nn.BatchNorm2d(64),  # 使一批（Batch）feature map满足均值为0，方差为1的分布规律。这样不仅数据分布一致，而且避免发生梯度消失
             nn.ReLU(True),
-            nn.MaxPool2d(2, 2)
+            nn.MaxPool2d(2, 2)  # max pooling的窗口大小、max pooling的窗口移动的步长
         )
         self.encode2 = nn.Sequential(
             nn.Conv2d(64, 128, kernel_size=3, stride=1, padding=1),
@@ -45,6 +46,7 @@ class Net(nn.Module):
             nn.MaxPool2d(2, 2)
         )
         self.decode1 = nn.Sequential(
+            # nn.ConvTranspose2d的功能是进行反卷积操作
             nn.ConvTranspose2d(in_channels=512, out_channels=256, kernel_size=3,
                                stride=2, padding=1, output_padding=1),
             nn.BatchNorm2d(256),
