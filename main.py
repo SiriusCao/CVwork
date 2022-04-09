@@ -13,17 +13,21 @@ batchsize = 8
 epochs = 50
 train_data_path = 'data/train'
 
-transform = transforms.Compose([transforms.ToTensor(),
+transform = transforms.Compose([transforms.ToTensor(),  # 图片转张量
                                 transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])])
+# 构建MyDataset实例
 bag = MyDataset(train_data_path, transform)
+# 构建DataLoder
 dataloader = DataLoader(bag, batch_size=batchsize, shuffle=True)
 
 
 device = torch.device('cuda')
 net = model.Net().to(device)
+# BinaryCrossEntropyLoss 对一个batch里面的数据做二元交叉熵
 criterion = nn.BCELoss()
 optimizer = optim.SGD(net.parameters(), lr=1e-2, momentum=0.7)
 
+# 如果不存在该目录则创建
 if not os.path.exists('checkpoints'):
     os.mkdir('checkpoints')
 
